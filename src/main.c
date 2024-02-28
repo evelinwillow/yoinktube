@@ -2,6 +2,7 @@
 #include <signal.h>
 
 #include "post.c"
+#include "include/post.h"
 
 #define SKILL_ISSUE EXIT_FAILURE;
 
