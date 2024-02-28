@@ -57,7 +57,7 @@ _yoinktube_write_callback(void *contents, size_t size, size_t nmemb, void *userp
   return realsize;
 }
  
-int main(void)
+int yoinktube_request ( struct yoinktube_request_params *params )
 {
   CURL *curl;
   CURLcode res;
