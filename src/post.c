@@ -31,16 +31,11 @@
 #include <curl/curl.h>
 #include "include/post.h"
 
-struct MemoryStruct {
-  char *memory;
-  size_t size;
-};
- 
 static size_t
 _yoinktube_write_callback(void *contents, size_t size, size_t nmemb, void *userp)
 {
   size_t realsize = size * nmemb;
-  struct MemoryStruct *mem = (struct MemoryStruct *)userp;
+  struct yoinktube_request_response *mem = (struct yoinktube_request_response *)userp;
  
   char *ptr = realloc(mem->memory, mem->size + realsize + 1);
   if(!ptr) {
@@ -61,7 +56,7 @@ int yoinktube_request ( struct yoinktube_request_params *params )
 {
   CURL *curl;
   CURLcode res;
-  struct MemoryStruct chunk;
+  struct yoinktube_request_response chunk;
   static const char *postthis = "Field=1&Field=2&Field=3";
  
   chunk.memory = malloc(1);  /* grown as needed by realloc above */
