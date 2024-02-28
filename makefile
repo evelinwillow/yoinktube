@@ -7,8 +7,8 @@ BIN ?= bin/out
 
 CC ?= gcc
 CCLD ?= $(CC)
-CFLAGS = -Isrc/include -Isrc/extern/include -Wall -Wpedantic -Wshadow -Wextra
-LDFLAGS += -Isrc/include -Isrc/extern/include -Wall -Wpedantic -Wshadow -Wextra
+CFLAGS = -Isrc/include -Isrc/extern/include -Wall -Wpedantic -Wshadow -Wextra -lcurl
+LDFLAGS += -Isrc/include -Isrc/extern/include -Wall -Wpedantic -Wshadow -Wextra -lcurl
 
 #############
 # First thing executed when running `make`

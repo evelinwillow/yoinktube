@@ -26,10 +26,13 @@
  * </DESC>
  */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <curl/curl.h>
+
 #include "include/post.h"
 
 static size_t _yoinktube_write_callback ( void *contents, size_t size, size_t nmemb, void *userp )
@@ -58,20 +61,26 @@ int yoinktube_request ( struct yoinktube_request_params *params )
 {
 	CURL *curl;
 	CURLcode res;
- 
+
 	params -> response -> memory = malloc(1);
 	params -> response -> size = 0;
  
 	curl = curl_easy_init();
 
-	if(curl)
+	puts ( "post curl easy init" );
+
+	if ( curl )
 	{
 		curl_easy_setopt ( curl, CURLOPT_URL, params -> url );
 		curl_easy_setopt ( curl, CURLOPT_WRITEFUNCTION, _yoinktube_write_callback ); 
 		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, params -> body );
- 
+
+		puts ( "pre curl easy perform" );
+
 		res = curl_easy_perform ( curl );
-		
+	
+		puts ( "post curl easy perform" );
+
 		if ( res != CURLE_OK )
 		{
 			fprintf
@@ -94,5 +103,6 @@ int yoinktube_request ( struct yoinktube_request_params *params )
 
 void yoinktube_sigint_handler ( int signal )
 {
+	( void ) signal;
 	curl_global_cleanup ();
 }
