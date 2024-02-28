@@ -29,7 +29,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
- 
+
+struct yoinktube_request_params {
+  char *url;
+  char *body;
+  char *response;
+};
+
 struct MemoryStruct {
   char *memory;
   size_t size;
