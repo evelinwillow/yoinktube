@@ -64,24 +64,33 @@ int yoinktube_request ( struct yoinktube_request_params *params )
 
 	if(curl)
 	{
-		curl_easy_setopt(curl, CURLOPT_URL, params->url);
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _yoinktube_write_callback); 
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, params->body);
+		curl_easy_setopt ( curl, CURLOPT_URL, params -> url );
+		curl_easy_setopt ( curl, CURLOPT_WRITEFUNCTION, _yoinktube_write_callback ); 
+		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, params -> body );
  
-		res = curl_easy_perform(curl);
+		res = curl_easy_perform ( curl );
 		
-		if (res != CURLE_OK)
+		if ( res != CURLE_OK )
 		{
-			fprintf(stderr, "curl_easy_perform() failed: %s\n",
-			curl_easy_strerror(res));
+			fprintf
+			(
+				stderr,
+				"curl_easy_perform() failed: %s\n",
+				curl_easy_strerror ( res )
+			);
 
 			exit(1);
 		}
  
 		/* always cleanup */
-		curl_easy_cleanup(curl);
+		curl_easy_cleanup ( curl );
 	}
  
-	curl_global_cleanup();
+	curl_global_cleanup ();
 	return 0;
+}
+
+void yoinktube_sigint_handler ( int signal )
+{
+	curl_global_cleanup ();
 }
