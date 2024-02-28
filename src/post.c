@@ -54,56 +54,34 @@ _yoinktube_write_callback(void *contents, size_t size, size_t nmemb, void *userp
  
 int yoinktube_request ( struct yoinktube_request_params *params )
 {
-  CURL *curl;
-  CURLcode res;
-  struct yoinktube_request_response chunk;
-  static const char *postthis = "Field=1&Field=2&Field=3";
+	CURL *curl;
+	CURLcode res;
  
-  chunk.memory = malloc(1);  /* grown as needed by realloc above */
-  chunk.size = 0;    /* no data at this point */
+	params -> response -> memory = malloc(1);
+	params -> response -> size = 0;
  
-  curl_global_init(CURL_GLOBAL_ALL);
-  curl = curl_easy_init();
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://www.example.org/");
+	curl = curl_easy_init();
+
+	if(curl)
+	{
+		curl_easy_setopt(curl, CURLOPT_URL, params->url);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _yoinktube_write_callback); 
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, params->body);
  
-    /* send all data to this function  */
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _yoinktube_write_callback);
+		res = curl_easy_perform(curl);
+		
+		if (res != CURLE_OK)
+		{
+			fprintf(stderr, "curl_easy_perform() failed: %s\n",
+			curl_easy_strerror(res));
+
+			exit(1);
+		}
  
-    /* we pass our 'chunk' struct to the callback function */
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
+		/* always cleanup */
+		curl_easy_cleanup(curl);
+	}
  
-    /* some servers do not like requests that are made without a user-agent
-       field, so we provide one */
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
- 
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postthis);
- 
-    /* if we do not provide POSTFIELDSIZE, libcurl calls strlen() by itself */
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(postthis));
- 
-    /* Perform the request, res gets the return code */
-    res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK) {
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
-    }
-    else {
-      /*
-       * Now, our chunk.memory points to a memory block that is chunk.size
-       * bytes big and contains the remote file.
-       *
-       * Do something nice with it!
-       */
-      printf("%s\n",chunk.memory);
-    }
- 
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
- 
-  free(chunk.memory);
-  curl_global_cleanup();
-  return 0;
+	curl_global_cleanup();
+	return 0;
 }
