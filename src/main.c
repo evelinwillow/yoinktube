@@ -31,11 +31,13 @@ int main ( int argc, char *argv[] )
 
 	puts ( "post allocation of memory for params" );
 
+	curl_global_init(CURL_GLOBAL_ALL);
+
 	signal ( SIGINT, yoinktube_sigint_handler );
 
 	puts ( "post init of sigint handler" );
 
-	strncpy ( params -> url, "www.google.com", MAX_URL_LENGTH -1);
+	strncpy ( params -> url, "https://www.google.com", MAX_URL_LENGTH -1);
 
 	puts ( "post writing url" );
 
