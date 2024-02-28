@@ -34,22 +34,24 @@
 static size_t
 _yoinktube_write_callback(void *contents, size_t size, size_t nmemb, void *userp)
 {
-  size_t realsize = size * nmemb;
-  struct yoinktube_request_response *mem = (struct yoinktube_request_response *)userp;
+	size_t realsize = size * nmemb;
+	struct yoinktube_request_response *mem = ( struct yoinktube_request_response * ) userp;
  
-  char *ptr = realloc(mem->memory, mem->size + realsize + 1);
-  if(!ptr) {
-    /* out of memory! */
-    printf("not enough memory (realloc returned NULL)\n");
-    return 0;
-  }
+	char *ptr = realloc ( mem -> memory, mem -> size + realsize + 1 );
+	if ( !ptr )
+	{
+		/* out of memory! */
+		printf("not enough memory (realloc returned NULL)\n");
+
+		return 0;
+	}
  
-  mem->memory = ptr;
-  memcpy(&(mem->memory[mem->size]), contents, realsize);
-  mem->size += realsize;
-  mem->memory[mem->size] = 0;
+	mem -> memory = ptr;
+	memcpy ( &( mem -> memory [ mem -> size ] ), contents, realsize );
+	mem -> size += realsize;
+	mem -> memory [ mem -> size ] = 0;
  
-  return realsize;
+	return realsize;
 }
  
 int yoinktube_request ( struct yoinktube_request_params *params )

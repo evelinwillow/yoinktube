@@ -10,5 +10,5 @@ int main ( int argc, char *argv[] )
 
 	signal ( SIGINT, yoinktube_sigint_handler );
 
-	abort();
+	abort ();
 }
