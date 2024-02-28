@@ -25,4 +25,5 @@ $(BIN): $(OBJS)
 	$(CCLD) $(LDFLAGS) -o $(BIN) $(OBJS)
 
 debug:	CFLAGS += -g
+debug:	LDFLAGS += -g
 debug:  $(BIN)
