@@ -73,7 +73,7 @@ int main(void)
     curl_easy_setopt(curl, CURLOPT_URL, "https://www.example.org/");
  
     /* send all data to this function  */
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _yoinktube_write_callback);
  
     /* we pass our 'chunk' struct to the callback function */
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
