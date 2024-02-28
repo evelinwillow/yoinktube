@@ -16,6 +16,7 @@ struct yoinktube_request_params
   struct yoinktube_request_response *response;
 };
 
-int yoinktube_request ( struct yoinktube_request_params );
+int yoinktube_request ( struct yoinktube_request_params* );
+void yoinktube_sigint_handler ( int );
 
 #endif
