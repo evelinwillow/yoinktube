@@ -11,8 +11,8 @@ struct yoinktube_request_response
 
 struct yoinktube_request_params
 {
-  char *url;
-  char *body;
+  const char *url;
+  const char *body;
   struct yoinktube_request_response *response;
 };
 

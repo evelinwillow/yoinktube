@@ -62,7 +62,11 @@ int yoinktube_request ( struct yoinktube_request_params *params )
 	CURL *curl;
 	CURLcode res;
 
-	params -> response -> memory = malloc(1);
+	if ( NULL ==  ( params -> response = calloc (1, sizeof ( struct yoinktube_request_response ) ) ) ) 
+		puts ( "girl naw" );
+
+	puts ( "heehoo" );
+
 	params -> response -> size = 0;
  
 	curl = curl_easy_init();
