@@ -47,6 +47,7 @@ int yoink_request ( struct yoink_parameters *parameters )
 		curl_easy_setopt ( curl, CURLOPT_WRITEDATA, ( void* ) parameters -> response );
 		curl_easy_setopt ( curl, CURLOPT_USERAGENT, parameters -> useragent );
 		curl_easy_setopt ( curl, CURLOPT_VERBOSE, parameters -> beVerbose );
+		curl_easy_setopt ( curl, CURLOPT_STDERR, parameters -> logfile );
 
 		result = curl_easy_perform ( curl );
 	

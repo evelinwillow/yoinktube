@@ -25,6 +25,7 @@ struct yoink_parameters
   unsigned int doDumpToLog:1;
   unsigned int doDumpToStdout:1;
   struct yoink_response *response;
+  FILE *logfile;
 };
 
 enum YOINK_RESULT {

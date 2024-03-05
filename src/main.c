@@ -18,19 +18,21 @@ int main ( int argc, char *argv[] )
 	response.size = 0;
 	response.content = calloc ( 1, 1 );
 
+	FILE *log = fopen ( YOINK_LOGNAME, "w" );
+
 	struct yoink_parameters parameters =
 	{
 		.url = "https://www.google.com/",
 		.body = "",
 		.useCustomBody = 0,
 		.beVerbose = 1,
-		.doDumpToLog = 1,
+		.doDumpToLog = 0,
 		.doDumpToStdout = 0,
-		.useragent = "Dark Secret Ninja/1.0",
-		.response = &response
+		.useragent = "evelinwillow/1.0",
+		.response = &response,
 	};	
-	
-	FILE *log = fopen ( YOINK_LOGNAME, "w" );
+
+	parameters.logfile = log;
 
 	curl_global_init ( CURL_GLOBAL_ALL );
 
