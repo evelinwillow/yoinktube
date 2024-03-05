@@ -73,6 +73,7 @@ int yoink_request ( struct yoink_parameters *parameters )
 }
 
 void yoink_sigint_handler ( int signal )
+// Sigint handler; i tried sending a sigint once and it did in fact not int. though.
 {
 	( void ) signal;
 

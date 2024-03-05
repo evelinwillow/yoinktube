@@ -15,8 +15,8 @@ int main ( int argc, char *argv[] )
 
 	struct yoink_parameters parameters =
 	{
-		.url = "https://www.google.com/",
-		.body = "",
+			.url = "https://wttr.in/",
+			.body = "",
 	};
 
 	curl_global_init ( CURL_GLOBAL_ALL );
