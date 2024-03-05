@@ -15,7 +15,7 @@ int main ( int argc, char *argv[] )
 
 	struct yoink_parameters parameters =
 	{
-		.url = "https://google.com/",
+		.url = "https://www.google.com/",
 		.body = "",
 	};
 
@@ -24,8 +24,6 @@ int main ( int argc, char *argv[] )
 	signal ( SIGINT, yoink_sigint_handler );
 
 	fprintf ( stdout, "%s\n", "Yoinking in progress..." );
-
-	//int result = yoink_request ( &parameters );
 
 	if ( YOINK_SUCCESS == yoink_request ( &parameters ) )
 	{

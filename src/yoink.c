@@ -29,13 +29,9 @@ static size_t _yoink_write_callback ( void *data, size_t size, size_t nmemb, voi
 	// Didn't we reallocate the buffer - is the old one not freed? I thought they get replaced instead of actually resized. 
 
 	printf ( "Handling %d bytes!\n", ( int ) realsize );
-	fprintf ( stdout, "Dumping data to stdout:\n%s\n", ( char* ) data );
+	fprintf ( stdout, "Dumping data to stdout:\n%s\n", memory -> content );
 	// TODO implement more sensible handling of data maybe, yes?
 
-
-	free ( memory -> content );
-	// Freeing the memory directly in the callback function
-	//
 	return realsize;
 }
  
@@ -52,7 +48,8 @@ int yoink_request ( struct yoink_parameters *parameters )
 	{
 		curl_easy_setopt ( curl, CURLOPT_URL, parameters -> url );
 		curl_easy_setopt ( curl, CURLOPT_WRITEFUNCTION, _yoink_write_callback ); 
-		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, parameters -> body );
+		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, NULL );
+		curl_easy_setopt ( curl, CURLOPT_POST, 0);
 		curl_easy_setopt ( curl, CURLOPT_WRITEDATA, ( void* ) &response );
 
 		result = curl_easy_perform ( curl );
@@ -67,6 +64,8 @@ int yoink_request ( struct yoink_parameters *parameters )
 		// always cleanup
 		curl_easy_cleanup ( curl );
 	}
+
+	free ( response.content );
  
 	curl_global_cleanup ();
 	// Isn't this called several times and also why easy and global cleanup?

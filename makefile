@@ -9,6 +9,7 @@ CC ?= gcc
 CCLD ?= $(CC)
 CFLAGS = -Isrc/include -Isrc/extern/include -Wall -Wpedantic -Wshadow -Wextra -lcurl
 LDFLAGS += -Isrc/include -Isrc/extern/include -Wall -Wpedantic -Wshadow -Wextra -lcurl
+VFLAGS = --leak-check=full -s --track-origins=yes
 
 #############
 # First thing executed when running `make`
@@ -28,5 +29,21 @@ debug:	CFLAGS += -g
 debug:	LDFLAGS += -g
 debug:  $(BIN)
 
+clean:
+	rm $(BIN)
+
 remake:
-	rm bin/out && make debug && bin/out
+	make clean
+	make debug
+
+run:
+	make remake
+	$(BIN)
+
+gdb:
+	make remake
+	gdb $(BIN)
+
+valgrind:
+	make remake
+	valgrind $(VFLAGS) $(BIN)
