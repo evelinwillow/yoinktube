@@ -15,7 +15,6 @@ int main ( int argc, char *argv[] )
 
 	struct yoink_response response;
 
-
 	response.size = 0;
 	response.content = calloc ( 1, 1 );
 
