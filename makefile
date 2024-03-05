@@ -30,7 +30,7 @@ debug:	LDFLAGS += -g
 debug:  $(BIN)
 
 clean:
-	rm $(BIN)
+	./clean.sh
 
 remake:
 	make clean
