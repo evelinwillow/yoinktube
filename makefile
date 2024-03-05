@@ -27,3 +27,6 @@ $(BIN): $(OBJS)
 debug:	CFLAGS += -g
 debug:	LDFLAGS += -g
 debug:  $(BIN)
+
+remake:
+	rm bin/out && make debug && bin/out

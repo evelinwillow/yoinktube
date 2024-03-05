@@ -3,10 +3,10 @@
 
 #include <curl/curl.h>
 
-#include "post.c"
+#include "yoink.c"
 
 #include "include/main.h"
-#include "include/post.h"
+#include "include/yoink.h"
 
 #define SKILL_ISSUE EXIT_FAILURE
 
@@ -15,27 +15,29 @@ int main ( int argc, char *argv[] )
 	( void ) argc;
 	( void ) argv;
 
-	struct yoinktube_request_params params = {
+	struct yoink_parameters parameters = {
 		.url = "https://google.com/",
 		.body = "",
 	};
 
 	curl_global_init(CURL_GLOBAL_ALL);
 
-	signal ( SIGINT, yoinktube_sigint_handler );
+	signal ( SIGINT, yoink_sigint_handler );
 
-	puts ( "post init of sigint handler" );
+	fprintf ( stdout, "%s\n", "Yoinking in progress..." );
 
-	if ( yoinktube_request ( &params ) )
+	int result = yoink_request ( &parameters );
+
+	if ( YOINK_SUCCESS == result )
 	{
-		printf ( "%s\n", "Successfully did the thingie!" );
-		
+		fprintf ( stdout, "Successfully yoinked data from %s!\n", parameters.url );
+	
 		return EXIT_SUCCESS;
 	}
 	else
 	{
-		printf ( "%s\n", "Girl nooooo... :c" );
-
+		fprintf ( stderr, "Failed to yoink data from %s with error code %d :C\n", parameters.url, result );
+	
 		return SKILL_ISSUE;
 	}
 
