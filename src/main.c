@@ -8,27 +8,26 @@
 #include "include/main.h"
 #include "include/yoink.h"
 
-#define SKILL_ISSUE EXIT_FAILURE
-
 int main ( int argc, char *argv[] )
 {
 	( void ) argc;
 	( void ) argv;
 
-	struct yoink_parameters parameters = {
+	struct yoink_parameters parameters =
+	{
 		.url = "https://google.com/",
 		.body = "",
 	};
 
-	curl_global_init(CURL_GLOBAL_ALL);
+	curl_global_init ( CURL_GLOBAL_ALL );
 
 	signal ( SIGINT, yoink_sigint_handler );
 
 	fprintf ( stdout, "%s\n", "Yoinking in progress..." );
 
-	int result = yoink_request ( &parameters );
+	//int result = yoink_request ( &parameters );
 
-	if ( YOINK_SUCCESS == result )
+	if ( YOINK_SUCCESS == yoink_request ( &parameters ) )
 	{
 		fprintf ( stdout, "Successfully yoinked data from %s!\n", parameters.url );
 	
@@ -36,7 +35,7 @@ int main ( int argc, char *argv[] )
 	}
 	else
 	{
-		fprintf ( stderr, "Failed to yoink data from %s with error code %d :C\n", parameters.url, result );
+		fprintf ( stderr, "Failed to yoink data from %s :C\n", parameters.url );
 	
 		return SKILL_ISSUE;
 	}
