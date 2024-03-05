@@ -12,8 +12,6 @@ static size_t _yoink_write_callback ( void *data, size_t size, size_t nmemb, voi
 	size_t realsize = size * nmemb;
 	struct yoink_response *memory = ( struct yoink_response * ) userp;
 	
-	printf ( "Handling %d bytes!\n", ( int ) realsize );
-
 	char *buffer = realloc( memory -> content, memory -> size + realsize + 1 );
 
 	if ( !buffer )
