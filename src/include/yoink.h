@@ -16,6 +16,7 @@ struct yoink_parameters
 {
   const char *url;
   const char *body;
+  struct yoink_response *response;
 };
 
 enum YOINK_RESULT {

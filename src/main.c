@@ -13,12 +13,20 @@ int main ( int argc, char *argv[] )
 	( void ) argc;
 	( void ) argv;
 
+	struct yoink_response *response;
+
+	response = calloc ( 1, sizeof ( struct yoink_response ) );
+
+	response -> size = 0;
+	response -> content = calloc ( 1, 1 );
+
 	struct yoink_parameters parameters =
 	{
-			.url = "https://wttr.in/",
+		.url = "https://wttr.in/",
 		.body = "",
-	};
-
+		.response = response
+	};	
+	
 	curl_global_init ( CURL_GLOBAL_ALL );
 
 	signal ( SIGINT, yoink_sigint_handler );
@@ -30,13 +38,17 @@ int main ( int argc, char *argv[] )
 		fprintf ( stdout, "Successfully yoinked data from %s!\n", parameters.url );
 		
 
+
+		fprintf ( stdout, "Dumping data to stdout:\n%s\n", parameters.response -> content );
+		free ( parameters.response );
 		curl_global_cleanup ();
 		return EXIT_SUCCESS;
 	}
 	else
 	{
 		fprintf ( stderr, "Failed to yoink data from %s :C\n", parameters.url );
-	
+
+		free ( parameters.response );
 		curl_global_cleanup ();
 		return SKILL_ISSUE;
 	}

@@ -11,9 +11,10 @@ static size_t _yoink_write_callback ( void *data, size_t size, size_t nmemb, voi
 {
 	size_t realsize = size * nmemb;
 	struct yoink_response *memory = ( struct yoink_response * ) userp;
+	
+	printf ( "Handling %d bytes!\n", ( int ) realsize );
 
 	char *buffer = realloc( memory -> content, memory -> size + realsize + 1 );
-	// Looks like we are replacing the former, 0-size buffer with a new one?
 
 	if ( !buffer )
 	{
@@ -28,8 +29,6 @@ static size_t _yoink_write_callback ( void *data, size_t size, size_t nmemb, voi
 	memory -> content [ memory -> size ] = 0;
 	// Didn't we reallocate the buffer - is the old one not freed? I thought they get replaced instead of actually resized. 
 
-	printf ( "Handling %d bytes!\n", ( int ) realsize );
-	fprintf ( stdout, "Dumping data to stdout:\n%s\n", memory -> content );
 	// TODO implement more sensible handling of data maybe, yes?
 
 	return realsize;
@@ -41,16 +40,13 @@ int yoink_request ( struct yoink_parameters *parameters )
 	CURL *curl;
 	CURLcode result;
 
-	struct yoink_response response = { 0 };
- 	// Why
-
 	if ( ( curl = curl_easy_init () ) )
 	{
 		curl_easy_setopt ( curl, CURLOPT_URL, parameters -> url );
 		curl_easy_setopt ( curl, CURLOPT_WRITEFUNCTION, _yoink_write_callback ); 
-		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, NULL );
-		curl_easy_setopt ( curl, CURLOPT_POST, 0);
-		curl_easy_setopt ( curl, CURLOPT_WRITEDATA, ( void* ) &response );
+		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, parameters -> body );
+		curl_easy_setopt ( curl, CURLOPT_POST, 1);
+		curl_easy_setopt ( curl, CURLOPT_WRITEDATA, ( void* ) parameters -> response );
 
 		result = curl_easy_perform ( curl );
 	
@@ -61,11 +57,10 @@ int yoink_request ( struct yoink_parameters *parameters )
 			return YOINK_ERROR;
 		}
 
-		// always cleanup
-		curl_easy_cleanup ( curl );
 	}
-
-	free ( response.content );
+	
+	// always cleanup
+	curl_easy_cleanup ( curl );
  
 	return 0;
 }
