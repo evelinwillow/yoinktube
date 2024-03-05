@@ -67,8 +67,6 @@ int yoink_request ( struct yoink_parameters *parameters )
 
 	free ( response.content );
  
-	curl_global_cleanup ();
-	// Isn't this called several times and also why easy and global cleanup?
 	return 0;
 }
 
