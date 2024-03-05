@@ -43,8 +43,10 @@ int yoink_request ( struct yoink_parameters *parameters )
 		curl_easy_setopt ( curl, CURLOPT_URL, parameters -> url );
 		curl_easy_setopt ( curl, CURLOPT_WRITEFUNCTION, _yoink_write_callback ); 
 		curl_easy_setopt ( curl, CURLOPT_POSTFIELDS, parameters -> body );
-		curl_easy_setopt ( curl, CURLOPT_POST, 1);
+		curl_easy_setopt ( curl, CURLOPT_POST, parameters -> useCustomBody );
 		curl_easy_setopt ( curl, CURLOPT_WRITEDATA, ( void* ) parameters -> response );
+		curl_easy_setopt ( curl, CURLOPT_USERAGENT, parameters -> useragent );
+		curl_easy_setopt ( curl, CURLOPT_VERBOSE, parameters -> beVerbose );
 
 		result = curl_easy_perform ( curl );
 	
