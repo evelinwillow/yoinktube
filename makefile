@@ -44,6 +44,6 @@ gdb:
 	make remake
 	gdb $(BIN)
 
-valgrind:
+vg:
 	make remake
 	valgrind $(VFLAGS) $(BIN)
