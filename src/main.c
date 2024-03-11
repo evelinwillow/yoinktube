@@ -4,16 +4,19 @@
 #include <curl/curl.h>
 
 #include "yoink.c"
+#include "parseopt.c"
 
 #include "include/main.h"
 #include "include/yoink.h"
 
 int main ( int argc, char *argv[] )
 {
-	( void ) argc;
-	( void ) argv;
-
 	struct yoink_response response;
+
+	struct parsedOptargs parsed = parse_optargs ( argc, argv );
+
+	if ( NULL == parsed.url )
+		parsed.url = "https://www.google.com";
 
 	response.size = 0;
 	response.content = calloc ( 1, 1 );
@@ -22,7 +25,7 @@ int main ( int argc, char *argv[] )
 
 	struct yoink_parameters parameters =
 	{
-		.url = "https://www.google.com/",
+		.url = parsed.url,
 		.body = "",
 		.useCustomBody = 0,
 		.beVerbose = 1,
@@ -30,7 +33,10 @@ int main ( int argc, char *argv[] )
 		.doDumpToStdout = 0,
 		.useragent = "evelinwillow/1.0",
 		.response = &response,
-	};	
+	};
+
+	if ( NULL != parsed.url )
+		printf ( "%s\n", parsed.url );
 
 	parameters.logfile = log;
 
