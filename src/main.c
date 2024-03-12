@@ -26,11 +26,11 @@ int main ( int argc, char *argv[] )
 	struct yoink_parameters parameters =
 	{
 		.url = parsed.url,
-		.body = "",
-		.useCustomBody = 0,
+		.body = "{context: {client: {clientName: 'ANDROID', clientVersion: '19.04.33', androidSdkVersion: '34', userAgent: 'com.google.android.youtube/19.04.33 (Linux; U; Android 14 gzip)' screenDensityFloat: 1, screenHeightPoints: 1080, screenPixelDensity: 1, screenWidthPoints: 1920,}, query: 'Boykisser', params: 'EgIQAQ%3D%3D'}",
+		.useCustomBody = parsed.useCustomBody,
 		.beVerbose = 1,
-		.doDumpToLog = 0,
-		.doDumpToStdout = 0,
+		.doDumpToLog = parsed.doDump,
+		.doDumpToStdout = parsed.doDump,
 		.useragent = "evelinwillow/1.0",
 		.response = &response,
 	};

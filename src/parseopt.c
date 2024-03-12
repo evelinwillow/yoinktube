@@ -15,12 +15,16 @@ parse_optargs ( int argc, char * argv[] )
 	char *url = NULL;
 
 	bool useCustomBody = false;
+	bool doDump = false;
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "bu:")) != -1)
+	while ((c = getopt (argc, argv, "dbu:")) != -1)
 		switch (c)
 		{
+			case 'd':
+				doDump = true;
+				break;
 			case 'u':
 				url = optarg;
 				break;
@@ -41,7 +45,8 @@ parse_optargs ( int argc, char * argv[] )
 	struct parsedOptargs parsed = 
 	{
 		.url = url,
-		.useCustomBody = useCustomBody
+		.useCustomBody = useCustomBody,
+		.doDump = doDump
 	};
 
 	for (index = optind; index < argc; index++)
